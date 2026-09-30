@@ -1,6 +1,43 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
+
+const API_URL = "http://localhost:3000";
+
 function CourseCreation() {
+  const navigate = useNavigate();
+  const [message, setMessage] = useState(null);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const course = {
+      courseNumber: form.courseNumber.value,
+      name: form.courseName.value,
+      subjectArea: form.courseSubject.value,
+      credits: Number(form.creditHours.value),
+      description: form.courseDescription.value,
+    };
+
+    fetch(`${API_URL}/courses`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(course),
+    })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failure to create course");
+      setMessage({ type: "success", text: "Course created successfully" });
+      setTimeout(() => navigate("/courseIndex"), 1000);
+    })
+    .catch(() => {
+      setMessage({
+        type: "danger",
+        text: "Something went wrong. Check if server is running.",
+      });
+    });
+}
+
   return (
     <>
       <title>Course Creation</title>
