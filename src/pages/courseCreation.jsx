@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://sdev-255-final-project-flash-thq5.onrender.com";
 
 function CourseCreation() {
   const navigate = useNavigate();
