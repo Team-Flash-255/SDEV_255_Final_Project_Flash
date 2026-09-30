@@ -62,7 +62,7 @@ router.put("/courses/:id", async (req, res) => {
 
 // DELETE - delete a course
 router.delete("/courses/:id", async (req, res) => {
-    const deleted = await deleteCourse(req.params.id);
+    const deleted = await courseData.deleteCourse(req.params.id);
     if (!deleted) {
         return res.status(404).json({ error: "Course not found" });
     }
