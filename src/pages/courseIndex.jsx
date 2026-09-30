@@ -65,37 +65,40 @@ function handleSearchSubmit(e) {
         </div>
 
         <div className="container p-5 my-5 border bg-warning">
-          <div className="container mt-3">
-            <div className="card">
-              <div className="card-header">Course Number: LI101</div>
-              <div className="card-body">Course Name: Intro to Lorem Ipsum</div>
-              <div className="card-body">Subject: Lorem Ipsum</div>
-              <div className="card-body">
-                Description: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Consequatur dolore laborum eligendi consectetur nihil
-                perferendis laudantium nesciunt enim totam porro placeat odio
-                similique modi est reiciendis error, aliquid architecto culpa.
+          {loading && <p>Loading courses...</p>}
+          {error && <p className="text-danger">{error}</p>}
+          {!loading && !error && courses.length === 0 && (
+            <p>No courses found.</p>
+          )}
+          {!loading &&
+            !error &&
+            courses.map((course) =>(
+              <div className="container mt-3" key={course.id}>
+                <div className="card">
+                  <div className="card-header">
+                    Course Number: {course.courseNumber}
+                  </div>
+                  <div className="card-body">Course Name: {course.name}</div>
+                  <div classNAme="card-body">Subject: {course.subjectArea}</div>
+                  <div className="card-body">
+                    Description: {course.description}
+                  </div>
+                  <div className="card-footer">
+                    Credit Hours: {course.credits}
+                  </div>
+                  <div className="card-footer">
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() => handleDelete(course.id)}
+                      >
+                        x Delete Course
+                      </button>
+                  </div>
+                </div>
               </div>
-              <div className="card-footer">Credit Hours: 3</div>
-            </div>
-          </div>
-
-          <div className="container mt-3">
-            <div className="card">
-              <div className="card-header">Course Number: LI201</div>
-              <div className="card-body">Course Name: Advanced Lorem Ipsum</div>
-              <div className="card-body">Subject:Lorem Ipsum</div>
-              <div className="card-body">
-                Description: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Ex aut dignissimos itaque, optio sed cumque necessitatibus
-                earum rerum nobis id explicabo reprehenderit accusantium
-                expedita beatae provident error nulla! Dolorum, rerum!
-              </div>
-              <div className="card-footer">Credit Hours: 3</div>
-            </div>
-          </div>
+            ))}
         </div>
-
         <div className="row" style={{ height: "100px" }}>
           <div className="col-sm-12 p-3 bg-secondary text-warning text-center fs-6">
             Copyright
