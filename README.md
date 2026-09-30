@@ -20,4 +20,6 @@ A web application that lets teachers create, edit, and delete courses, and lets 
 **Front-end:** React, React Router
 **Back-end:** Node.js, Express
 **Database:** TBD
-**Hosting:** Github Pages (front-end)
+**Hosting:** 
+[Github Pages - front-end](url here)
+[Render - backend](https://sdev-255-final-project-flash-thq5.onrender.com)
