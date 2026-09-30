@@ -36,7 +36,7 @@ function CourseCreation() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text text-darkx bg-warning">
+                <span className="input-group-text text-dark bg-warning">
                   Course Name
                 </span>
                 <input

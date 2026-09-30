@@ -1,6 +1,38 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
+
+const API_URL = "http://localhost:3000";
+
 function CourseIndex() {
+  const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    const url = search
+      ? `${API_URL}/courses?search=${encodeURIComponent(search)}`
+      : `${API_URL}/courses`;
+    
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+        setLoading(false);
+  })
+  .catch(() => {
+    setError("Could not load courses. Check if server is running");
+    setLoading(false);
+  });
+}, [search]);
+
+function handleSearchSubmit(e) {
+  e.preventDefault();
+  setSearch(e.target.searchInput.value);
+}
+
   return (
     <>
       <title>Course Index</title>
