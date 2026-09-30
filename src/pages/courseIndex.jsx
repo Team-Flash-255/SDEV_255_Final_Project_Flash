@@ -79,7 +79,7 @@ function handleSearchSubmit(e) {
                     Course Number: {course.courseNumber}
                   </div>
                   <div className="card-body">Course Name: {course.name}</div>
-                  <div classNAme="card-body">Subject: {course.subjectArea}</div>
+                  <div className="card-body">Subject: {course.subjectArea}</div>
                   <div className="card-body">
                     Description: {course.description}
                   </div>
