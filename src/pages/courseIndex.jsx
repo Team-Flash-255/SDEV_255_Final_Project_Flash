@@ -58,7 +58,7 @@ function handleSearchSubmit(e) {
               placeholder="Search"
               name="searchInput"
             />
-            <button className="btn btn-warning" type="button">
+            <button className="btn btn-warning" type="submit">
               Search
             </button>
           </form>
