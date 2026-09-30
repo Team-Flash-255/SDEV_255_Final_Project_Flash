@@ -1,4 +1,4 @@
-import { useState, userEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import CourseIndex from "./pages/courseIndex";
 import CourseCreation from "./pages/courseCreation";
