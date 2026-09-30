@@ -51,7 +51,7 @@ function handleSearchSubmit(e) {
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
           <h1>Course Index</h1>
-          <form className="d-flex">
+          <form className="d-flex" onSubmit={handleSearchSubmit}>
             <input
               className="form-control me-2"
               type="text"
