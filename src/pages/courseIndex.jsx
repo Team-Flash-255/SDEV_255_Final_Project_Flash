@@ -66,7 +66,7 @@ function handleSearchSubmit(e) {
 
         <div className="container p-5 my-5 border bg-warning">
           {loading && <p>Loading courses...</p>}
-          {error && <p className="text-danger">{error}</p>}
+          {error && <p className="text-dark">{error}</p>}
           {!loading && !error && courses.length === 0 && (
             <p>No courses found.</p>
           )}
@@ -88,11 +88,11 @@ function handleSearchSubmit(e) {
                   </div>
                   <div className="card-footer">
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-secondary"
                       type="button"
                       onClick={() => handleDelete(course.id)}
                       >
-                        x Delete Course
+                        Delete Course
                       </button>
                   </div>
                 </div>
