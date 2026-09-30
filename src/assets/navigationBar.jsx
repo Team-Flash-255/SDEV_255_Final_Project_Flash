@@ -10,17 +10,17 @@ function NavigationBar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/CourseIndex" className="nav-link">
+            <Link to="/courseIndex" className="nav-link">
               Course Index
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/CourseCreation" className="nav-link">
+            <Link to="/courseCreation" className="nav-link">
               Add Course
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/CourseDeletion" className="nav-link">
+            <Link to="/courseDeletion" className="nav-link">
               Delete Course
             </Link>
           </li>
