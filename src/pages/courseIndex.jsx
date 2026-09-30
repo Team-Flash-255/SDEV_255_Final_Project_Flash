@@ -86,15 +86,6 @@ function handleSearchSubmit(e) {
                   <div className="card-footer">
                     Credit Hours: {course.credits}
                   </div>
-                  <div className="card-footer">
-                    <button
-                      className="btn btn-secondary"
-                      type="button"
-                      onClick={() => handleDelete(course.id)}
-                      >
-                        Delete Course
-                      </button>
-                  </div>
                 </div>
               </div>
             ))}
