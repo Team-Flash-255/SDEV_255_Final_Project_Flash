@@ -60,7 +60,7 @@ function CourseCreation() {
 
         <div className="container p-5 my-5 border bg-secondary">
           <div className="container mt-3">
-            <form action="/action_page.php">
+            <form onSubmit={handleSubmit}>
               <div className="input-group mb-3">
                 <span className="input-group-text text-dark bg-warning">
                   Course Number
