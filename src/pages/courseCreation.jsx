@@ -9,9 +9,9 @@ function CourseCreation() {
           <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
             Lorem Ipsum School of Placeholder
           </div>
-          <div className="col-sm-3 p-3 bg-info text-dark fs-3">
+          <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
             Welcome, user!
-            <Link to="/login" className="btn btn-warning">
+            <Link to="/login" className="btn btn-outline-dark">
               Sign Out
             </Link>
           </div>
@@ -21,11 +21,11 @@ function CourseCreation() {
           <h1>Add a Course</h1>
         </div>
 
-        <div className="container p-5 my-5 border bg-info">
+        <div className="container p-5 my-5 border bg-secondary">
           <div className="container mt-3">
             <form action="/action_page.php">
               <div className="input-group mb-3">
-                <span className="input-group-text text-white bg-secondary">
+                <span className="input-group-text text-dark bg-warning">
                   Course Number
                 </span>
                 <input
@@ -36,7 +36,7 @@ function CourseCreation() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text text-white bg-secondary">
+                <span className="input-group-text text-darkx bg-warning">
                   Course Name
                 </span>
                 <input
@@ -47,7 +47,7 @@ function CourseCreation() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text text-white bg-secondary">
+                <span className="input-group-text text-dark bg-warning">
                   Course Subject
                 </span>
                 <input
@@ -58,7 +58,7 @@ function CourseCreation() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text text-white bg-secondary">
+                <span className="input-group-text text-dark bg-warning">
                   Credit Hours
                 </span>
                 <input
@@ -69,7 +69,7 @@ function CourseCreation() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text text-white bg-secondary">
+                <span className="input-group-text text-dark bg-warning">
                   Course Description
                 </span>
                 <input
@@ -79,7 +79,7 @@ function CourseCreation() {
                   name="courseDescription"
                 />
               </div>
-              <button type="submit" className="btn btn-warning">
+              <button type="submit" className="btn btn-outline-warning">
                 Create Course
               </button>
             </form>

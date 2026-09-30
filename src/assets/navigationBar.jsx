@@ -1,28 +1,33 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 function NavigationBar() {
   return (
     <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
       <div className="container-fluid">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <Link to="/" className="nav-link active text-warning">
+            <NavLink to="/" className="nav-link">
               Home
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/courseIndex" className="nav-link">
+            <NavLink to="/courseIndex" className="nav-link">
               Course Index
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/courseCreation" className="nav-link">
+            <NavLink to="/courseCreation" className="nav-link">
               Add Course
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <Link to="/courseDeletion" className="nav-link">
+            <NavLink to="/courseDeletion" className="nav-link">
               Delete Course
-            </Link>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/studentHome" className="nav-link">
+              Student Side(temporary)
+            </NavLink>
           </li>
         </ul>
       </div>

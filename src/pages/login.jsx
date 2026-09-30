@@ -10,7 +10,7 @@ function Login() {
           </div>
         </div>
 
-        <div className="container p-5 my-5 bg-info text-dark">
+        <div className="container p-5 my-5 bg-warning text-dark">
           <div className="container mt-3">
             <h2>Sign In</h2>
             <form action="/action_page.php">
@@ -46,7 +46,7 @@ function Login() {
                   Remember me
                 </label>
               </div>
-              <button type="submit" className="btn btn-warning">
+              <button type="submit" className="btn btn-outline-dark">
                 Submit
               </button>
             </form>

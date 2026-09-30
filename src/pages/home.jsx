@@ -9,9 +9,9 @@ function Home() {
           <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
             Lorem Ipsum School of Placeholder
           </div>
-          <div className="col-sm-3 p-3 bg-info text-dark fs-3">
+          <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
             Welcome, user!
-            <Link to="/login" className="btn btn-warning">
+            <Link to="/login" className="btn btn-outline-dark">
               Sign Out
             </Link>
           </div>
@@ -26,13 +26,13 @@ function Home() {
               placeholder="Search"
               name="searchInput"
             />
-            <button className="btn btn-info" type="button">
+            <button className="btn btn-warning" type="button">
               Search
             </button>
           </form>
         </div>
 
-        <div className="container p-5 my-5 border bg-info">
+        <div className="container p-5 my-5 border bg-warning">
           <div className="container mt-3">
             <div className="card">
               <div className="card-header">Course Number: LI101</div>
