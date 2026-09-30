@@ -84,8 +84,8 @@ function CourseDeletion() {
               </div>
               <div className="card-footer">Credit Hours: 3</div>
               <div className="card-footer">
-                <button className="btn btn-danger" type="button">
-                  x Delete Course
+                <button className="btn btn-secondary" type="button">
+                  Delete Course
                 </button>
               </div>
             </div>
@@ -104,8 +104,8 @@ function CourseDeletion() {
               </div>
               <div className="card-footer">Credit Hours: 3</div>
               <div className="card-footer">
-                <button className="btn btn-danger" type="button">
-                  x Delete Course
+                <button className="btn btn-secondary" type="button">
+                  Delete Course
                 </button>
               </div>
             </div>
