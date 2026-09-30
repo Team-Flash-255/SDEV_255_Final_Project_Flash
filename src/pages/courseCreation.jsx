@@ -59,6 +59,9 @@ function CourseCreation() {
         </div>
 
         <div className="container p-5 my-5 border bg-secondary">
+          {message && (
+            <div className={`alert alert-${message.type}`}>{message.text}</div>
+          )}
           <div className="container mt-3">
             <form onSubmit={handleSubmit}>
               <div className="input-group mb-3">

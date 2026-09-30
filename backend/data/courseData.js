@@ -39,7 +39,7 @@ async function createCourse(courseData) {
         description: courseData.description,
         subjectArea: courseData.subjectArea,
         credits: courseData.credits,
-    },
+    };
     nextId = nextId + 1;
     courses.push(newCourse);
     return newCourse;    
