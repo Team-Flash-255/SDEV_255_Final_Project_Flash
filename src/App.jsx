@@ -10,7 +10,7 @@ import StudentAddDrop from "./pages/studentAddDrop.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter baseneame="/SDEV_255_Final_Project_Flash/">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
