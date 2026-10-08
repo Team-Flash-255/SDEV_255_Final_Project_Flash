@@ -6,7 +6,7 @@ function Login() {
       <PageLayout>
         <div className="row" style={{ height: "100px" }}>
           <div className="col-sm-12 p-3 bg-secondary text-white text-center fs-1">
-            Lorem Ipsum School of Placeholder
+            Course Manager
           </div>
         </div>
 

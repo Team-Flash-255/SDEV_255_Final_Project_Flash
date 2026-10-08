@@ -1,5 +1,4 @@
 // temporary placeholder for Adrian's database
-
 let courses = [
     {
         id: 1,
@@ -97,9 +96,10 @@ async function deleteCourse(id) {
 }
 
     module.exports = {
-    getAllCourses,
-    getCourseById,
-    createCourse,
-    updateCourse,
-    deleteCourse,
+        users,
+        getAllCourses,
+        getCourseById,
+        createCourse,
+        updateCourse,
+        deleteCourse,
 };

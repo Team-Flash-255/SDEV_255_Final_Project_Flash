@@ -39,7 +39,7 @@ function handleSearchSubmit(e) {
       <PageLayout>
         <div className="row" style={{ height: "100px" }}>
           <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-            Lorem Ipsum School of Placeholder
+            Course Manager
           </div>
           <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
             Welcome, user!
