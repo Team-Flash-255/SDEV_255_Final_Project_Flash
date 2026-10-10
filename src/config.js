@@ -1,2 +1,1 @@
-export const API_URL = "http://localhost:3000";
-//https://sdev-255-final-project-flash-thq5.onrender.com
+export const API_URL = "https://sdev-255-final-project-flash-1.onrender.com";
