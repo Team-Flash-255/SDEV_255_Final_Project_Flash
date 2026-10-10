@@ -1,21 +1,12 @@
-import { Link } from "react-router-dom";
 import StudentPageLayout from "../assets/studentPageLayout";
+import PageHeader from "../assets/pageHeader";
+
 function StudentHome() {
   return (
     <>
       <title>Student Home</title>
       <StudentPageLayout>
-        <div className="row" style={{ height: "100px" }}>
-          <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-            Course Manager
-          </div>
-          <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
-            Welcome, user!
-            <Link to="/login" className="btn btn-outline-dark">
-              Sign Out
-            </Link>
-          </div>
-        </div>
+        <PageHeader />
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
           <h1>Your current schedule:</h1>

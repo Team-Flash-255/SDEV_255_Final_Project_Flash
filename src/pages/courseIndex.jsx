@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
-
-const API_URL = "https://sdev-255-final-project-flash-thq5.onrender.com";
+import PageHeader from "../assets/pageHeader";
+import { API_URL } from "../config";
 
 function CourseIndex() {
   const [courses, setCourses] = useState([]);
@@ -16,8 +16,11 @@ function CourseIndex() {
       ? `${API_URL}/courses?search=${encodeURIComponent(search)}`
       : `${API_URL}/courses`;
     
-    fetch(url)
-      .then((res) => res.json())
+    fetch(url, { headers: { "x-auth": localStorage.getItem("token")}})
+      .then((res) => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
       .then((data) => {
         setCourses(data);
         setLoading(false);
@@ -37,17 +40,7 @@ function handleSearchSubmit(e) {
     <>
       <title>Course Index</title>
       <PageLayout>
-        <div className="row" style={{ height: "100px" }}>
-          <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-            Course Manager
-          </div>
-          <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
-            Welcome, user!
-            <Link to="/login" className="btn btn-outline-dark">
-              Sign Out
-            </Link>
-          </div>
-        </div>
+        <PageHeader />
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
           <h1>Course Index</h1>
@@ -73,7 +66,7 @@ function handleSearchSubmit(e) {
           {!loading &&
             !error &&
             courses.map((course) =>(
-              <div className="container mt-3" key={course.id}>
+              <div className="container mt-3" key={course._id}>
                 <div className="card">
                   <div className="card-header">
                     Course Number: {course.courseNumber}
@@ -85,6 +78,11 @@ function handleSearchSubmit(e) {
                   </div>
                   <div className="card-footer">
                     Credit Hours: {course.credits}
+                  </div>
+                  <div className="card-footer">
+                    <Link to={`/courseEdit/${course._id}`} className="btn btn-secondary">
+                      Edit Course
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -3,9 +3,11 @@
 const express = require("express");
 const router = express.Router();
 const courseData = require("../data/courseData");
+const { requireLogin, requireTeacher } = require("../handlers/auth");
 
 // GET courses - all
-router.get("/courses", async (req, res) => {
+router.get("/courses", requireLogin, async (req, res) => {
+   try { 
     const courses = await courseData.getAllCourses();
     const { search } = req.query;
 
@@ -19,19 +21,28 @@ router.get("/courses", async (req, res) => {
     c.courseNumber.toLowerCase().includes(term)
 );
 res.json(filtered);
+}
+catch (err){
+    res.status(500).json({ error: err.message })
+    }
 });
 
 // GET courses - get one course
-router.get("/courses/:id", async (req, res) => {
-    const course = await courseData.getCourseById(req.params.id);
-    if (!course) {
+router.get("/courses/:id", requireLogin, async (req, res) => {
+    try {
+     const course = await courseData.getCourseById(req.params.id);
+     if (!course) {
         return res.status(404).json({ error: "Course not found" });
     }
     res.json(course);
+}
+catch (err){
+    res.status(400).json({ error: err.message });
+}
 });
 
 // POST - create new course
-router.post("/courses", async (req, res) => {
+router.post("/courses", requireLogin, requireTeacher, async (req, res) => {
     const { courseNumber, name, description, subjectArea, credits } = req.body;
 
     if (!courseNumber || !name || !description || !subjectArea || credits === undefined) {
@@ -40,8 +51,9 @@ router.post("/courses", async (req, res) => {
             "courseNumber, name, description, subjectArea, and credits are all required",
         });
     }
-
-    const newCourse = await courseData.createCourse({
+    
+    try {
+     const newCourse = await courseData.createCourse({
         courseNumber,
         name,
         description,
@@ -49,24 +61,38 @@ router.post("/courses", async (req, res) => {
         credits,
     });
     res.status(201).json(newCourse);
+}
+catch (err) {
+    res.status(400).json({ error: err.message });
+}
 });
 
 // PUT - update existing course
-router.put("/courses/:id", async (req, res) => {
-    const updated = await courseData.updateCourse(req.params.id, req.body);
-    if (!updated) {
+router.put("/courses/:id", requireLogin, requireTeacher, async (req, res) => {
+    try {
+     const updated = await courseData.updateCourse(req.params.id, req.body);
+      if (!updated) {
         return res.status(404).json({ error: "Course not found" });
+      }
+     res.json(updated);
     }
-    res.json(updated);
+    catch (err) {
+        res.status(400).json({ error: err.message });
+    }
 });
 
 // DELETE - delete a course
-router.delete("/courses/:id", async (req, res) => {
+router.delete("/courses/:id", requireLogin, requireTeacher, async (req, res) => {
+    try {
     const deleted = await courseData.deleteCourse(req.params.id);
     if (!deleted) {
         return res.status(404).json({ error: "Course not found" });
     }
     res.status(204).send();
+    }
+    catch (err) {
+        res.status(400).json({ error: err.message });
+    }
 });
 
 module.exports = router;

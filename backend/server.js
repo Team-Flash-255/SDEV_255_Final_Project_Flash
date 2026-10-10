@@ -3,6 +3,7 @@
 const express = require("express");
 const cors = require("cors");
 const coursesRouter = require("./routes/courses");
+const authRouter = require("./routes/auth");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use("/", authRouter);
 app.use("/", coursesRouter);
 
 app.get("/", (req, res) => {

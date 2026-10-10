@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
+import PageHeader from "../assets/pageHeader";
+import { API_URL } from "../config";
 
-const API_URL = "https://sdev-255-final-project-flash-thq5.onrender.com";
 
 function CourseDeletion() {
   const [courses, setCourses] = useState([]);
@@ -16,9 +17,12 @@ function CourseDeletion() {
       ? `${API_URL}/courses?search=${encodeURIComponent(search)}`
       : `${API_URL}/courses`;
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
+    fetch(url, { headers: { "x-auth": localStorage.getItem("token") } })
+      .then((res) => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then((data) =>{
         setCourses(data);
         setLoading(false);
       })
@@ -35,25 +39,30 @@ function CourseDeletion() {
     setSearch(e.target.searchInput.value);
   }
 
-  function handleDelete(id) {
-    fetch(`${API_URL}/courses/${id}`, { method: "DELETE" }).then(loadCourses);
+  function handleDelete(course) {
+    if (!window.confirm(`Delete ${course.courseNumber} - ${course.name}?`))
+      return;
+    fetch(`${API_URL}/courses/${course._id}`, { 
+      method: "DELETE",
+      headers: { "x-auth": localStorage.getItem("token") },
+     }).then(loadCourses);
   }
 
   return (
     <>
       <title>Course Deletion</title>
       <PageLayout>
-        <div className="row" style={{ height: "100px" }}>
+        <PageHeader />
+         {/* <div className="row" style={{ height: "100px" }}>
+          <h1>Delete a Course</h1>
           <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-            Course Manager
+  
           </div>
           <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
-            Welcome, user!
             <Link to="/login" className="btn btn-outline-dark">
-              Sign Out
             </Link>
           </div>
-        </div>
+        </div> */}
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
           <h1>Delete a Course</h1>
@@ -79,7 +88,7 @@ function CourseDeletion() {
           {!loading &&
             !error &&
             courses.map((course) => (
-              <div className="container mt-3" key={course.id}>
+              <div className="container mt-3" key={course._id}>
                 <div className="card">
                   <div className="card-header">
                     Course Number: {course.courseNumber}
@@ -96,7 +105,7 @@ function CourseDeletion() {
                     <button
                       className="btn btn-secondary"
                       type="button"
-                      onClick={() => handleDelete(course.id)}>
+                      onClick={() => handleDelete(course._id)}>
                         Delete Course
                     </button>
                   </div>

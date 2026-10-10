@@ -14,11 +14,6 @@ function StudentNavigationBar() {
               Add/Drop
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/" className="nav-link">
-              Teacher Side(temporary)
-            </NavLink>
-          </li>
         </ul>
       </div>
     </nav>

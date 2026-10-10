@@ -24,11 +24,6 @@ function NavigationBar() {
               Delete Course
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/studentHome" className="nav-link">
-              Student Side(temporary)
-            </NavLink>
-          </li>
         </ul>
       </div>
     </nav>
