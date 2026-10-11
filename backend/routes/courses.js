@@ -6,7 +6,7 @@ const courseData = require("../data/courseData");
 const { requireLogin, requireTeacher } = require("../handlers/auth");
 
 // GET courses - all
-router.get("/courses", requireLogin, async (req, res) => {
+router.get("/courses", async (req, res) => {
    try { 
     const courses = await courseData.getAllCourses();
     const { search } = req.query;
@@ -28,7 +28,7 @@ catch (err){
 });
 
 // GET courses - get one course
-router.get("/courses/:id", requireLogin, async (req, res) => {
+router.get("/courses/:id", async (req, res) => {
     try {
      const course = await courseData.getCourseById(req.params.id);
      if (!course) {
