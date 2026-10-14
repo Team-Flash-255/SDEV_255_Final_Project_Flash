@@ -12,11 +12,12 @@ function CourseIndex() {
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
     const url = search
       ? `${API_URL}/courses?search=${encodeURIComponent(search)}`
       : `${API_URL}/courses`;
-    
-    fetch(url, { headers: { "x-auth": localStorage.getItem("token")}})
+
+    fetch(url, { headers: { "x-auth": localStorage.getItem("token") } })
       .then((res) => {
         if (!res.ok) throw new Error("Request failed");
         return res.json();
@@ -24,17 +25,17 @@ function CourseIndex() {
       .then((data) => {
         setCourses(data);
         setLoading(false);
-  })
-  .catch(() => {
-    setError("Could not load courses. Check if server is running");
-    setLoading(false);
-  });
-}, [search]);
+      })
+      .catch(() => {
+        setError("Could not load courses. Check if server is running");
+        setLoading(false);
+      });
+  }, [search]);
 
-function handleSearchSubmit(e) {
-  e.preventDefault();
-  setSearch(e.target.searchInput.value);
-}
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    setSearch(e.target.searchInput.value);
+  }
 
   return (
     <>
@@ -43,7 +44,9 @@ function handleSearchSubmit(e) {
         <PageHeader />
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
-          <h1>Course Index</h1>
+          <h1>
+            {search ? `Course Index Search for: "${search}"` : "Course Index"}
+          </h1>
           <form className="d-flex" onSubmit={handleSearchSubmit}>
             <input
               className="form-control me-2"
@@ -65,7 +68,7 @@ function handleSearchSubmit(e) {
           )}
           {!loading &&
             !error &&
-            courses.map((course) =>(
+            courses.map((course) => (
               <div className="container mt-3" key={course._id}>
                 <div className="card">
                   <div className="card-header">
@@ -80,7 +83,10 @@ function handleSearchSubmit(e) {
                     Credit Hours: {course.credits}
                   </div>
                   <div className="card-footer">
-                    <Link to={`/courseEdit/${course._id}`} className="btn btn-secondary">
+                    <Link
+                      to={`/courseEdit/${course._id}`}
+                      className="btn btn-secondary"
+                    >
                       Edit Course
                     </Link>
                   </div>
