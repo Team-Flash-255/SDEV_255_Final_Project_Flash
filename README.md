@@ -18,9 +18,9 @@ A web application that lets teachers create, edit, and delete courses, and lets 
 
 ## Stack
 
-**Front-end:** React, React Router
-**Back-end:** Node.js, Express
-**Database:** MongoDB
+**Front-end:** React, React Router\
+**Back-end:** Node.js, Express\
+**Database:** MongoDB\
 **Hosting:**
-[Github Pages - front-end](https://team-flash-255.github.io/SDEV_255_Final_Project_Flash/)
+[Github Pages - front-end](https://team-flash-255.github.io/SDEV_255_Final_Project_Flash/)\
 [Render - backend](https://sdev-255-final-project-flash-1.onrender.com)
