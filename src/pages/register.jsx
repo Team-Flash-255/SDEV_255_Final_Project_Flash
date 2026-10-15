@@ -46,7 +46,7 @@ function Register() {
   }
 
   const innerContent = [
-    <div className="row" style={{ height: "100px" }}>
+    <div className="row" style={{ height: "100px" }} key={"headerKey"}>
       <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
         Course Manager
       </div>
