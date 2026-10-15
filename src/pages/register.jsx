@@ -8,6 +8,7 @@ function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setError(null);
     const form = e.target;
 
     // POST /auth with username and password
