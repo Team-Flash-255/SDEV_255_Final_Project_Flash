@@ -24,6 +24,11 @@ function NavigationBar() {
               Delete Course
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink to="/register" className="nav-link">
+              Add user
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>

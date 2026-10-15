@@ -47,7 +47,7 @@ router.post("/user", requireLogin, requireTeacher, async (req, res) => {
   });
   try {
     await newUser.save();
-    res.status(201);
+    res.sendStatus(201);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

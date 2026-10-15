@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
+import PageLayout from "../assets/pageLayout";
 
 function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const hasToken = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,28 +36,37 @@ function Register() {
       });
   }
 
-  function handleSignIn() {
+  function handleAuth() {
+    if (hasToken) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+    }
     navigate("/login");
   }
 
+  const innerContent = [
+    <div className="row" style={{ height: "100px" }}>
+      <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
+        Course Manager
+      </div>
+      <div className="col-sm-3 p-3 bg-warning text-dark text-center fs-3">
+        {hasToken ? `Welcome, ${username}! ` : null}
+        <button
+          type="button"
+          className="btn btn-outline-dark"
+          onClick={handleAuth}
+        >
+          {hasToken ? "Sign Out" : "Sign In"}
+        </button>
+      </div>
+    </div>,
+  ];
+
   return (
     <>
+      {hasToken ? <PageLayout>{innerContent}</PageLayout> : innerContent}
       <title>Register</title>
-      <div className="row" style={{ height: "100px" }}>
-        <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-          Course Manager
-        </div>
-        <div className="col-sm-3 p-3 bg-warning text-dark text-center fs-3">
-          <button
-            type="button"
-            className="btn btn-outline-dark"
-            onClick={handleSignIn}
-          >
-            Sign In
-          </button>
-        </div>
-      </div>
-
       <div className="container p-5 my-5 bg-warning text-dark">
         <div className="container mt-3">
           <h2>Register Account</h2>
@@ -86,7 +98,6 @@ function Register() {
             </div>
             <div className="mb-3">
               <label>Role:</label>
-
               <div className="form-check">
                 <input
                   className="form-check-input"
