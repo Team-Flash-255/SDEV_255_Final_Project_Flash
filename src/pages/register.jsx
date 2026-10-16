@@ -13,26 +13,33 @@ function Register() {
     e.preventDefault();
     setError(null);
     const form = e.target;
+    const body = {
+      username: form.username.value,
+      password: form.pswd.value,
+    };
+    let adaptiveAPIurl = `${API_URL}/register/student`;
+    if (hasToken) {
+      adaptiveAPIurl = `${API_URL}/user`;
+      body.role = form.roleRadio.value;
+    }
 
     // POST /auth with username and password
-    fetch(`${API_URL}/user`, {
+    fetch(adaptiveAPIurl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-auth": localStorage.getItem("token"),
       },
-      body: JSON.stringify({
-        username: form.username.value,
-        password: form.pswd.value,
-        role: form.roleRadio.value,
-      }),
+      body: JSON.stringify(body),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failure to create user");
-        alert("User registered successfully", "Okay");
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error((await res.json()).error || "Failure to create user");
+        }
+        alert("User registered successfully");
       })
-      .catch(() => {
-        setError("Could not reach server. Try refreshing.");
+      .catch((err) => {
+        setError(err.message);
       });
   }
 
@@ -112,13 +119,25 @@ function Register() {
                 </label>
               </div>
               <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="roleRadio"
-                  id="radioTeacher"
-                  value="teacher"
-                />
+                {hasToken ? (
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="roleRadio"
+                    id="radioTeacher"
+                    value="teacher"
+                  />
+                ) : (
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="roleRadio"
+                    id="radioTeacher"
+                    value="teacher"
+                    disabled={!hasToken}
+                  />
+                )}
+
                 <label className="form-check-label" htmlFor="radioTeacher">
                   Teacher
                 </label>

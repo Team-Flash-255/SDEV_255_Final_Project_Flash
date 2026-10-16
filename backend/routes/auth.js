@@ -53,4 +53,21 @@ router.post("/user", requireLogin, requireTeacher, async (req, res) => {
   }
 });
 
+router.post("/register/student", async (req, res) => {
+  if (!req.body.username || !req.body.password) {
+    return res.status(400).json({ error: "Missing username or password" });
+  }
+  const newUser = new User({
+    username: req.body.username,
+    password: req.body.password,
+    role: "student",
+  });
+  try {
+    await newUser.save();
+    res.sendStatus(201);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
