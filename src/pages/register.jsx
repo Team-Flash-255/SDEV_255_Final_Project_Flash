@@ -17,19 +17,18 @@ function Register() {
       username: form.username.value,
       password: form.pswd.value,
     };
+    const headers = { "Content-Type": "application/json" };
     let adaptiveAPIurl = `${API_URL}/register/student`;
     if (hasToken) {
       adaptiveAPIurl = `${API_URL}/user`;
       body.role = form.roleRadio.value;
+      headers["x-auth"] = hasToken;
     }
 
     // POST /auth with username and password
     fetch(adaptiveAPIurl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth": localStorage.getItem("token"),
-      },
+      headers: headers,
       body: JSON.stringify(body),
     })
       .then(async (res) => {
