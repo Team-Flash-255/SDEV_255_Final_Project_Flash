@@ -8,6 +8,7 @@ function CourseDeletion() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const myUsername = localStorage.getItem("username");
 
   function loadCourses() {
     setLoading(true);
@@ -87,7 +88,7 @@ function CourseDeletion() {
           {loading && <p>Loading courses...</p>}
           {error && <p className="text-dark">{error}</p>}
           {!loading && !error && courses.length === 0 && (
-            <p>No courses found.</p>
+            <div className="card text-center">No courses found.</div>
           )}
           {!loading &&
             !error &&
@@ -99,18 +100,24 @@ function CourseDeletion() {
                   </div>
                   <div className="card-body">Course Name: {course.name}</div>
                   <div className="card-body">Subject: {course.subjectArea}</div>
+                  <div className="card-body">Taught by: {course.createdBy}</div>
+                  <div className="card-body">
+                    Available?: {course.available}
+                  </div>
                   <div className="card-body">
                     Description: {course.description}
                   </div>
                   <div className="card-footer d-flex justify-content-between align-items-center">
                     <span>Credit Hours: {course.credits}</span>
-                    <button
-                      className="btn btn-danger"
-                      type="button"
-                      onClick={() => handleDelete(course)}
-                    >
-                      Delete Course
-                    </button>
+                    {course.createdBy === myUsername && (
+                      <button
+                        className="btn btn-danger"
+                        type="button"
+                        onClick={() => handleDelete(course)}
+                      >
+                        Delete Course
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

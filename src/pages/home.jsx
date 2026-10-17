@@ -30,9 +30,8 @@ function Home() {
         setCourses(data);
         setLoading(false);
       })
-      .catch(() => {
-        setError("Could not load courses. Check if server is running");
-        setLoading(false);
+      .catch((err) => {
+        setError(err.message);
       });
   }, [search]);
 
@@ -66,7 +65,7 @@ function Home() {
           {loading && <p>Loading courses...</p>}
           {error && <p className="text-dark">{error}</p>}
           {!loading && !error && courses.length === 0 && (
-            <p>No courses found.</p>
+            <div className="card text-center">No courses found.</div>
           )}
           {!loading &&
             !error &&
@@ -78,6 +77,10 @@ function Home() {
                   </div>
                   <div className="card-body">Course Name: {course.name}</div>
                   <div className="card-body">Subject: {course.subjectArea}</div>
+                  <div className="card-body">Taught by: {course.createdBy}</div>
+                  <div className="card-body">
+                    Available?: {course.available}
+                  </div>
                   <div className="card-body">
                     Description: {course.description}
                   </div>

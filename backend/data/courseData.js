@@ -21,6 +21,8 @@ async function createCourse(courseData) {
     description: courseData.description,
     subjectArea: courseData.subjectArea,
     credits: courseData.credits,
+    createdBy: courseData.createdBy,
+    available: courseData.available,
   });
   await newCourse.save();
   return newCourse;

@@ -14,9 +14,15 @@ router.post("/enroll/:courseId", requireLogin, async (req, res) => {
     if (user.role !== "student") {
       return res.status(403).json({ error: "Only students can enroll" });
     }
+
     const course = await getCourseById(req.params.courseId);
     if (!course) {
       return res.status(404).json({ error: "Course not found" });
+    }
+    if (course.available === false) {
+      return res.status(403).json({
+        error: "This course is not currently available for enrollment.",
+      });
     }
     if (user.enrolledCourses.some((id) => id.equals(course._id))) {
       return res.status(409).json({ error: "Already enrolled in course!" });
@@ -39,11 +45,9 @@ router.delete("/enroll/:courseId", requireLogin, async (req, res) => {
       (id) => !id.equals(req.params.courseId),
     ); //filtering for all courseIds that do NOT match will weed out the one we want to unenroll from
     if (user.enrolledCourses.length === coursesLengthBefore) {
-      return res
-        .status(409)
-        .json({
-          error: "Not unenrolled. You are not enrolled in that course.",
-        });
+      return res.status(409).json({
+        error: "Not unenrolled. You are not enrolled in that course.",
+      });
     }
 
     await user.save();

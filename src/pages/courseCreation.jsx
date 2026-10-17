@@ -18,6 +18,8 @@ function CourseCreation() {
       subjectArea: form.courseSubject.value,
       credits: Number(form.creditHours.value),
       description: form.courseDescription.value,
+      createdBy: localStorage.getItem("username"),
+      available: form.isAvailable.value,
     };
 
     fetch(`${API_URL}/courses`, {
@@ -49,11 +51,9 @@ function CourseCreation() {
       <title>Course Creation</title>
       <PageLayout>
         <PageHeader />
-
         <div className="container p-5 my-5 bg-secondary text-center text-white">
           <h1>Add a Course</h1>
         </div>
-
         <div className="container p-5 my-5 border bg-secondary">
           {message && (
             <div className={`alert alert-${message.type}`}>{message.text}</div>
@@ -114,6 +114,21 @@ function CourseCreation() {
                   placeholder="Course Description"
                   name="courseDescription"
                 />
+              </div>
+              <div className="form-check form-switch mb-3 ">
+                <input
+                  className="form-check-input "
+                  type="checkbox"
+                  role="switch"
+                  id="available-switch"
+                  name="isAvailable"
+                />
+                <label
+                  className="form-check-label text-white"
+                  htmlFor="available-switch"
+                >
+                  Is class available to enroll in?
+                </label>
               </div>
               <button type="submit" className="btn btn-outline-warning">
                 Create Course

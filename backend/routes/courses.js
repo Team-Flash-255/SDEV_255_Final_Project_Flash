@@ -10,6 +10,9 @@ const { requireLogin, requireTeacher } = require("../handlers/auth");
 router.get("/courses", async (req, res) => {
   try {
     const courses = await courseData.getAllCourses();
+    if (req.user?.role !== "teacher") {
+      courses = courses.filter((courseObjs) => courseObjs.available !== false); //do not show unavailable courses to students
+    }
     const { search } = req.query;
 
     if (!search) {
@@ -43,7 +46,15 @@ router.get("/courses/:id", async (req, res) => {
 
 // POST - create new course
 router.post("/courses", requireLogin, requireTeacher, async (req, res) => {
-  const { courseNumber, name, description, subjectArea, credits } = req.body;
+  const {
+    courseNumber,
+    name,
+    description,
+    subjectArea,
+    credits,
+    createdBy,
+    available,
+  } = req.body;
 
   if (
     !courseNumber ||
@@ -65,6 +76,8 @@ router.post("/courses", requireLogin, requireTeacher, async (req, res) => {
       description,
       subjectArea,
       credits,
+      createdBy,
+      available,
     });
     res.status(201).json(newCourse);
   } catch (err) {
@@ -92,8 +105,18 @@ router.delete(
   requireTeacher,
   async (req, res) => {
     try {
+      const course = await courseData.getCourseById(req.params.id);
+      if (!course) {
+        return res.status(404).json({ error: "Course not found" });
+      }
+
+      if (course.createdBy !== req.user.username) {
+        return res
+          .status(403)
+          .json({ error: "You can only delete your own courses." });
+      }
       const users = await User.find({});
-      let cleaned = 0;
+
       for (const user of users) {
         const before = user.enrolledCourses.length;
         user.enrolledCourses = user.enrolledCourses.filter(
@@ -101,13 +124,10 @@ router.delete(
         );
         if (user.enrolledCourses.length !== before) {
           await user.save();
-          cleaned++;
         }
       }
-      const deleted = await courseData.deleteCourse(req.params.id);
-      if (!deleted) {
-        return res.status(404).json({ error: "Course not found" });
-      }
+      await courseData.deleteCourse(req.params.id);
+
       res.status(200).json({ deleted: true });
     } catch (err) {
       res.status(400).json({ error: err.message });
