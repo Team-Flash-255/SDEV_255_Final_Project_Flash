@@ -108,12 +108,7 @@ router.delete(
       if (!deleted) {
         return res.status(404).json({ error: "Course not found" });
       }
-      res.status(200).json({
-        deleted: true,
-        id: req.params.id,
-        matched: result.matchedCount,
-        modified: result.modifiedCount,
-      });
+      res.status(200).json({ deleted: true });
     } catch (err) {
       res.status(400).json({ error: err.message });
     }
