@@ -11,7 +11,7 @@ function PageHeader() {
   }
 
   return (
-    <div className="row" style={{ height: "100px" }}>
+    <div className="row g-3" style={{ height: "100px" }}>
       <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
         Course Manager
       </div>

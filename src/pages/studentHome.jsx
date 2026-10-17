@@ -29,7 +29,7 @@ function StudentHome() {
           </div>
         </div>
 
-        <div className="row" style={{ height: "100px" }}>
+        <div className="row g-3" style={{ height: "100px" }}>
           <div className="col-sm-12 p-3 bg-secondary text-warning text-center fs-6">
             Copyright
           </div>

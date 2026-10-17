@@ -40,7 +40,7 @@ router.delete("/enroll/:courseId", requireLogin, async (req, res) => {
     ); //filtering for all courseIds that do NOT match will weed out the one we want to unenroll from
     if (user.enrolledCourses.length === coursesLengthBefore) {
       return res
-        .status(400)
+        .status(409)
         .json({
           error: "Not unenrolled. You are not enrolled in that course.",
         });
