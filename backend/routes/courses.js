@@ -4,13 +4,17 @@ const express = require("express");
 const router = express.Router();
 const courseData = require("../data/courseData");
 const User = require("../models/user");
-const { requireLogin, requireTeacher } = require("../handlers/auth");
+const {
+  requireLogin,
+  requireTeacher,
+  loginOptional,
+} = require("../handlers/auth");
 
 // GET courses - all
-router.get("/courses", async (req, res) => {
+router.get("/courses", loginOptional, async (req, res) => {
   try {
     let courses = await courseData.getAllCourses();
-    if (req.user.role !== "teacher") {
+    if (req.user?.role !== "teacher") {
       courses = courses.filter((courseObjs) => courseObjs.available !== false); //do not show unavailable courses to students
     }
     const { search } = req.query;
