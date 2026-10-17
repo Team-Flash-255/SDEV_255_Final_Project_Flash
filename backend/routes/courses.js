@@ -9,8 +9,8 @@ const { requireLogin, requireTeacher } = require("../handlers/auth");
 // GET courses - all
 router.get("/courses", async (req, res) => {
   try {
-    const courses = await courseData.getAllCourses();
-    if (req.user?.role !== "teacher") {
+    let courses = await courseData.getAllCourses();
+    if (req.user.role !== "teacher") {
       courses = courses.filter((courseObjs) => courseObjs.available !== false); //do not show unavailable courses to students
     }
     const { search } = req.query;

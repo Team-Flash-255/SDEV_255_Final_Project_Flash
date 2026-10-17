@@ -19,7 +19,7 @@ function CourseCreation() {
       credits: Number(form.creditHours.value),
       description: form.courseDescription.value,
       createdBy: localStorage.getItem("username"),
-      available: form.isAvailable.value,
+      available: form.isAvailable.checked,
     };
 
     fetch(`${API_URL}/courses`, {
