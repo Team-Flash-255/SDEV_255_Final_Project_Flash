@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const coursesRouter = require("./routes/courses");
 const authRouter = require("./routes/auth");
-
+const enrollRouter = require("./routes/enrollments");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -13,11 +13,12 @@ app.use(express.json());
 
 app.use("/", authRouter);
 app.use("/", coursesRouter);
+app.use("/", enrollRouter);
 
 app.get("/", (req, res) => {
-    res.send("SDEV Course API is running.");
+  res.send("SDEV Course API is running.");
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+  console.log(`Server listening on http://localhost:${port}`);
 });
