@@ -6,9 +6,6 @@ const courseData = require("../data/courseData");
 const User = require("../models/user");
 const { requireLogin, requireTeacher } = require("../handlers/auth");
 
-const users = await User.find({});
-await User.updateMany({}, { $set: { enrolledCourses: [] } });
-
 // GET courses - all
 router.get("/courses", async (req, res) => {
   try {
@@ -95,24 +92,28 @@ router.delete(
   requireTeacher,
   async (req, res) => {
     try {
+      const users = await User.find({});
+      let cleaned = 0;
+      for (const user of users) {
+        const before = user.enrolledCourses.length;
+        user.enrolledCourses = user.enrolledCourses.filter(
+          (id) => String(id) !== String(req.params.id),
+        );
+        if (user.enrolledCourses.length !== before) {
+          await user.save();
+          cleaned++;
+        }
+      }
       const deleted = await courseData.deleteCourse(req.params.id);
       if (!deleted) {
         return res.status(404).json({ error: "Course not found" });
       }
-      const courseId = new mongoose.Types.ObjectId(req.params.id);
-      //   await User.updateMany(
-      //     { enrolledCourses: req.params.id },
-      //     { $pull: { enrolledCourses: req.params.id } },
-      //   );
-
-      const result = await User.updateMany(
-        { enrolledCourses: req.params.id },
-        { $pull: { enrolledCourses: req.params.id } },
-      );
-      if (result.matchedCount === 0) {
-        console.log("No users matched. Check schema type of enrolledCourses");
-      }
-      res.status(204).send();
+      res.status(200).json({
+        deleted: true,
+        id: req.params.id,
+        matched: result.matchedCount,
+        modified: result.modifiedCount,
+      });
     } catch (err) {
       res.status(400).json({ error: err.message });
     }
