@@ -11,6 +11,7 @@ function StudentAddDrop() {
   const [error, setError] = useState(null);
   const [enrolled, setEnrolled] = useState([]);
   const token = localStorage.getItem("token");
+  const enrolledIds = new Set(enrolled.map((c) => c._id)); //ids of enrolled classes
 
   useEffect(() => {
     if (!token) {
@@ -21,9 +22,10 @@ function StudentAddDrop() {
         if (!res.ok) throw new Error("Request failed");
         return res.json();
       })
-      .catch((err) => {
-        setError(err.message);
-      });
+      .then((data) => {
+        setEnrolled(data);
+      })
+      .catch(() => {});
   }, [token]);
 
   useEffect(() => {
@@ -52,7 +54,6 @@ function StudentAddDrop() {
     setSearch(e.target.searchInput.value);
   }
 
-  const enrolledIds = new Set(enrolled.map((c) => c._id)); //ids of enrolled classes
   function enroll(courseIdSelected) {
     fetch(`${API_URL}/enroll/${courseIdSelected}`, {
       method: "POST",
@@ -164,35 +165,31 @@ function StudentAddDrop() {
               {enrolled.length === 0 && (
                 <div className="card text-center">No courses found.</div>
               )}
-              {!loading &&
-                !error &&
-                enrolled.map((course) => (
-                  <div className="p-3 mt-3" key={course._id}>
-                    <div className="card">
-                      <div className="card-header">
-                        Course Number: {course.courseNumber}
-                      </div>
-                      <div className="card-body">
-                        Course Name: {course.name}
-                      </div>
-                      <div className="card-body">
-                        Subject: {course.subjectArea}
-                      </div>
-                      <div className="card-body">
-                        Description: {course.description}
-                      </div>
-                      <div className="card-footer d-flex justify-content-between align-items-center">
-                        <span>Credit Hours: {course.credits}</span>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => unenroll(course._id)}
-                        >
-                          Drop class
-                        </button>
-                      </div>
+              {enrolled.map((course) => (
+                <div className="p-3 mt-3" key={course._id}>
+                  <div className="card">
+                    <div className="card-header">
+                      Course Number: {course.courseNumber}
+                    </div>
+                    <div className="card-body">Course Name: {course.name}</div>
+                    <div className="card-body">
+                      Subject: {course.subjectArea}
+                    </div>
+                    <div className="card-body">
+                      Description: {course.description}
+                    </div>
+                    <div className="card-footer d-flex justify-content-between align-items-center">
+                      <span>Credit Hours: {course.credits}</span>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => unenroll(course._id)}
+                      >
+                        Drop class
+                      </button>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
