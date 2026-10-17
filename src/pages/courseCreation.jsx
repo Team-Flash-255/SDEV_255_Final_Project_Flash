@@ -22,23 +22,27 @@ function CourseCreation() {
 
     fetch(`${API_URL}/courses`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
+      headers: {
+        "Content-Type": "application/json",
         "x-auth": localStorage.getItem("token"),
-       },
+      },
       body: JSON.stringify(course),
     })
-    .then((res) => {
-      if (!res.ok) throw new Error("Failure to create course");
-      setMessage({ type: "success", text: "Course created successfully" });
-      setTimeout(() => navigate("/courseIndex"), 1000);
-    })
-    .catch(() => {
-      setMessage({
-        type: "danger",
-        text: "Something went wrong. Check if server is running.",
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failure to create course");
+        }
+        setMessage({ type: "success", text: "Course created successfully" });
+        setTimeout(() => navigate("/courseIndex"), 1000);
+      })
+      .catch((err) => {
+        setMessage({
+          type: "danger",
+          text: err.message,
+        });
       });
-    });
-}
+  }
 
   return (
     <>
