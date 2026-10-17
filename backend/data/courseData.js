@@ -36,6 +36,7 @@ async function updateCourse(id, courseData) {
     "description",
     "subjectArea",
     "credits",
+    "available",
   ];
   const changes = {};
   for (const field of allowed) {

@@ -50,6 +50,18 @@ function StudentHome() {
                 </div>
                 <div className="card-body">Course Name: {course.name}</div>
                 <div className="card-body">Subject: {course.subjectArea}</div>
+                <div className="card-body">Taught by: {course.createdBy}</div>
+                <div className="card-body">
+                  {course.available === false ? (
+                    <span className="badge bg-danger">
+                      Enrollment Unavailable
+                    </span>
+                  ) : (
+                    <span className="badge bg-success">
+                      Enrollment Available
+                    </span>
+                  )}
+                </div>
                 <div className="card-body">
                   Description: {course.description}
                 </div>

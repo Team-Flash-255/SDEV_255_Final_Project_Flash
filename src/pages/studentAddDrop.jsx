@@ -132,6 +132,20 @@ function StudentAddDrop() {
                         Subject: {course.subjectArea}
                       </div>
                       <div className="card-body">
+                        Taught by: {course.createdBy}
+                      </div>
+                      <div className="card-body">
+                        {course.available === false ? (
+                          <span className="badge bg-danger">
+                            Enrollment Unavailable
+                          </span>
+                        ) : (
+                          <span className="badge bg-success">
+                            Enrollment Available
+                          </span>
+                        )}
+                      </div>
+                      <div className="card-body">
                         Description: {course.description}
                       </div>
                       <div className="card-footer d-flex justify-content-between align-items-center">

@@ -9,6 +9,7 @@ function CourseIndex() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const myUsername = localStorage.getItem("username");
 
   useEffect(() => {
     setLoading(true);
@@ -78,21 +79,29 @@ function CourseIndex() {
                   <div className="card-body">Subject: {course.subjectArea}</div>
                   <div className="card-body">Taught by: {course.createdBy}</div>
                   <div className="card-body">
-                    Available?: {course.available}
+                    {course.available === false ? (
+                      <span className="badge bg-danger">
+                        Enrollment Unavailable
+                      </span>
+                    ) : (
+                      <span className="badge bg-success">
+                        Enrollment Available
+                      </span>
+                    )}
                   </div>
                   <div className="card-body">
                     Description: {course.description}
                   </div>
-                  <div className="card-footer">
-                    Credit Hours: {course.credits}
-                  </div>
-                  <div className="card-footer">
-                    <Link
-                      to={`/courseEdit/${course._id}`}
-                      className="btn btn-secondary"
-                    >
-                      Edit Course
-                    </Link>
+                  <div className="card-footer d-flex justify-content-between align-items-center">
+                    <span>Credit Hours: {course.credits}</span>
+                    {course.createdBy === myUsername && (
+                      <Link
+                        to={`/courseEdit/${course._id}`}
+                        className="btn btn-secondary"
+                      >
+                        Edit Course
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

@@ -15,6 +15,7 @@ router.get("/courses", loginOptional, async (req, res) => {
   try {
     let courses = await courseData.getAllCourses();
     if (req.user?.role !== "teacher") {
+      // if username is undefined or is not "teacher", user != teacher
       courses = courses.filter((courseObjs) => courseObjs.available !== false); //do not show unavailable courses to students
     }
     const { search } = req.query;
@@ -92,10 +93,18 @@ router.post("/courses", requireLogin, requireTeacher, async (req, res) => {
 // PUT - update existing course
 router.put("/courses/:id", requireLogin, requireTeacher, async (req, res) => {
   try {
-    const updated = await courseData.updateCourse(req.params.id, req.body);
-    if (!updated) {
+    const course = await courseData.getCourseById(req.params.id);
+    if (!course) {
       return res.status(404).json({ error: "Course not found" });
     }
+
+    if (course.createdBy !== req.user.username) {
+      return res
+        .status(403)
+        .json({ error: "You can only edit your own courses." });
+    }
+
+    const updated = await courseData.updateCourse(req.params.id, req.body);
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });

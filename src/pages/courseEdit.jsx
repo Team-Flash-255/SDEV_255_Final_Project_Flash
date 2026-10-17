@@ -6,63 +6,65 @@ import PageHeader from "../assets/pageHeader";
 import { API_URL } from "../config";
 
 function CourseEdit() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [course, setCourse] = useState(null);
-    const [message, setMessage] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [course, setCourse] = useState(null);
+  const [message, setMessage] = useState(null);
 
-    useEffect(() => {
-        fetch(`${API_URL}/courses/${id}`, {
-            headers: { "x-auth": localStorage.getItem("token")},
+  useEffect(() => {
+    fetch(`${API_URL}/courses/${id}`, {
+      headers: { "x-auth": localStorage.getItem("token") },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Course not found");
+        return res.json();
+      })
+      .then((data) => setCourse(data))
+      .catch(() =>
+        setMessage({ type: "danger", text: "Could not load course" }),
+      );
+  }, [id]);
 
-        })
-        .then((res) => {
-            if (!res.ok) throw new Error("Course not found");
-            return res.json();
-        })
-        .then((data) => setCourse(data))
-        .catch(() => setMessage({ type: "danger", text: "Could not load course"}));
-    }, [id]);
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        const form = e.target;
+    const changes = {
+      courseNumber: form.courseNumber.value,
+      name: form.courseName.value,
+      subjectArea: form.courseSubject.value,
+      credits: Number(form.creditHours.value),
+      description: form.courseDescription.value,
+      available: form.isAvailable.checked,
+    };
 
-        const changes = {
-            courseNumber: form.courseNumber.value,
-            name: form.courseName.value,
-            subjectArea: form.courseSubject.value,
-            credits: Number(form.creditHours.value),
-            description: form.courseDescription.value,
-        };
-
-        fetch(`${API_URL}/courses/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-auth": localStorage.getItem("token"),
-            },
-            body: JSON.stringify(changes),
-        })
-        .then((res) => {
-            if (!res.ok) throw new Error("Failed to update");
-            setMessage({ type: "success", text: "Course updated successfully" });
-            setTimeout(() => navigate("/courseIndex"), 1000);
-        })
-        .catch(() => {
-            setMessage({
-                type: "danger",
-                text: "Something went wrong"
-            });
+    fetch(`${API_URL}/courses/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth": localStorage.getItem("token"),
+      },
+      body: JSON.stringify(changes),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update");
+        setMessage({ type: "success", text: "Course updated successfully" });
+        setTimeout(() => navigate("/courseIndex"), 1000);
+      })
+      .catch(() => {
+        setMessage({
+          type: "danger",
+          text: "Something went wrong",
         });
-    }
+      });
+  }
 
-    return (
-        <>
-        <title>Edit Course</title>
-        <PageLayout>
-            <PageHeader />
-            <div className="container p-5 my-5 bg-secondary text-center text-white">
+  return (
+    <>
+      <title>Edit Course</title>
+      <PageLayout>
+        <PageHeader />
+        <div className="container p-5 my-5 bg-secondary text-center text-white">
           <h1>Edit a Course</h1>
         </div>
 
@@ -70,7 +72,9 @@ function CourseEdit() {
           {message && (
             <div className={`alert alert-${message.type}`}>{message.text}</div>
           )}
-          {!course && !message && <p className="text-white">Loading course...</p>}
+          {!course && !message && (
+            <p className="text-white">Loading course...</p>
+          )}
 
           {/* Only show the form once the course has loaded */}
           {course && (
@@ -131,6 +135,22 @@ function CourseEdit() {
                     defaultValue={course.description}
                   />
                 </div>
+                <div className="form-check form-switch mb-3 ">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="available-switch"
+                    name="isAvailable"
+                    defaultChecked={course.available}
+                  />
+                  <label
+                    className="form-check-label text-white"
+                    htmlFor="available-switch"
+                  >
+                    Is class available to enroll in?
+                  </label>
+                </div>
                 <button type="submit" className="btn btn-outline-warning">
                   Save Changes
                 </button>
@@ -144,8 +164,8 @@ function CourseEdit() {
             Copyright
           </div>
         </div>
-            </PageLayout>
-        </>
-    );
+      </PageLayout>
+    </>
+  );
 }
 export default CourseEdit;
