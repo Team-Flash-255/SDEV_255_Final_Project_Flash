@@ -142,7 +142,7 @@ function CourseEdit() {
                     role="switch"
                     id="available-switch"
                     name="isAvailable"
-                    defaultChecked={course.available !== false}
+                    defaultChecked={course.available !== false} //in case a class is old/leftover and does not have availability prop
                   />
                   <label
                     className="form-check-label text-white"
