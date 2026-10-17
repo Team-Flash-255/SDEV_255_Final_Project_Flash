@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import PageLayout from "../assets/pageLayout";
 import PageHeader from "../assets/pageHeader";
 import { API_URL } from "../config";
-
 
 function CourseDeletion() {
   const [courses, setCourses] = useState([]);
@@ -13,6 +11,7 @@ function CourseDeletion() {
 
   function loadCourses() {
     setLoading(true);
+    setError(null);
     const url = search
       ? `${API_URL}/courses?search=${encodeURIComponent(search)}`
       : `${API_URL}/courses`;
@@ -22,12 +21,12 @@ function CourseDeletion() {
         if (!res.ok) throw new Error("Request failed");
         return res.json();
       })
-      .then((data) =>{
+      .then((data) => {
         setCourses(data);
         setLoading(false);
       })
-      .catch(() => {
-        setError("Could not load courses. Check if server is running.");
+      .catch((err) => {
+        setError(err.message);
         setLoading(false);
       });
   }
@@ -39,13 +38,28 @@ function CourseDeletion() {
     setSearch(e.target.searchInput.value);
   }
 
-  function handleDelete(course) {
-    if (!window.confirm(`Delete ${course.courseNumber} - ${course.name}?`))
+  function handleDelete(courseObj) {
+    if (
+      !window.confirm(
+        `Delete course #${courseObj.courseNumber}: ${courseObj.name}?`,
+      )
+    )
       return;
-    fetch(`${API_URL}/courses/${course._id}`, { 
+    fetch(`${API_URL}/courses/${courseObj._id}`, {
       method: "DELETE",
       headers: { "x-auth": localStorage.getItem("token") },
-     }).then(loadCourses);
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failure to delete course");
+        }
+
+        loadCourses();
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   }
 
   return (
@@ -53,16 +67,6 @@ function CourseDeletion() {
       <title>Course Deletion</title>
       <PageLayout>
         <PageHeader />
-         {/* <div className="row" style={{ height: "100px" }}>
-          <h1>Delete a Course</h1>
-          <div className="col-sm-9 p-3 bg-secondary text-white text-center fs-1">
-  
-          </div>
-          <div className="col-sm-3 p-3 bg-warning text-dark fs-3">
-            <Link to="/login" className="btn btn-outline-dark">
-            </Link>
-          </div>
-        </div> */}
 
         <div className="container p-5 my-5 bg-secondary text-white text-center">
           <h1>Delete a Course</h1>
@@ -98,15 +102,14 @@ function CourseDeletion() {
                   <div className="card-body">
                     Description: {course.description}
                   </div>
-                  <div className="card-footer">
-                    Credit Hours: {course.credits}
-                  </div>
-                  <div className="card-footer">
+                  <div className="card-footer d-flex justify-content-between align-items-center">
+                    <span>Credit Hours: {course.credits}</span>
                     <button
-                      className="btn btn-secondary"
+                      className="btn btn-danger"
                       type="button"
-                      onClick={() => handleDelete(course._id)}>
-                        Delete Course
+                      onClick={() => handleDelete(course)}
+                    >
+                      Delete Course
                     </button>
                   </div>
                 </div>
