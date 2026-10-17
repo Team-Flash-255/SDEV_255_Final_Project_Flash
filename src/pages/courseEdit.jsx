@@ -142,7 +142,7 @@ function CourseEdit() {
                     role="switch"
                     id="available-switch"
                     name="isAvailable"
-                    defaultChecked={course.available}
+                    defaultChecked={course.available !== false}
                   />
                   <label
                     className="form-check-label text-white"
